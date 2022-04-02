@@ -1,86 +1,92 @@
-import type { NextPage } from 'next'
+import type {NextPage} from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Avatar from "../components/Avatar";
+import {MicrophoneIcon, ViewGridIcon} from "@heroicons/react/solid";
+import {SearchIcon} from "@heroicons/react/outline";
+import Footer from "../components/Footer";
+import {useRef} from "react";
+import {useRouter} from "next/router";
 
-const Home: NextPage = () => {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+const Home: NextPage = (props) => {
+    // @ts-ignore
+    const router = useRouter();
+    const searchInputRef = useRef(null);
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+    // @ts-ignore
+    const search = (e) => {
+        e.preventDefault();
+        // @ts-ignore
+        const term = searchInputRef.current.value;
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
+        if(!term) return;
+        router.push(`/search?term=${term}`)
+    }
 
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
 
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
+    return (
+        <div className='flex flex-col items-center  justify-center h-screen'>
+            <Head>
+                <title>Create Next App</title>
+                <link rel="icon" href="/favicon.ico"/>
+            </Head>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+            {/*header*/}
+            <header
+                className='flex w-full p-5 justify-between
+            text-gray-700 text-sm'>
+
+                {/*left*/}
+                <div className={'flex space-x-4 items-center'}>
+                    <p className='link'>About</p>
+                    <p className='link'>Store</p>
+                </div>
+
+                {/*right*/}
+                <div className={'flex space-x-4 items-center'}>
+                    <p className='link'>Gmail</p>
+                    <p className='link'>Images</p>
+
+                    {/*Icon*/}
+                    <ViewGridIcon className='h-10 w-10'/>
+                    {/*Avatar*/}
+                    <Avatar
+                        url='https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngitem.com%2Fso%2Frandom%2F&psig=AOvVaw2j4Sh608aCMe_vLe0xrxh4&ust=1648901270452000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJi6hofq8vYCFQAAAAAdAAAAABAD'/>
+                </div>
+            </header>
+
+            {/*body*/}
+            <form className='flex flex-col items-center mt-44 flex-grow w-4/5 '>
+                <Image
+                    src='http://assets.stickpng.com/images/580b57fcd9996e24bc43c51f.png'
+                    height={100}
+                    width={300}
+                />
+                <div className='
+                flex w-full mt-5
+                hover:shadow-lg
+                focus-within:shadow-lg
+                max-w-md rounded-full border
+                border-gray-200 px-5 py-3
+                 sm:max-w-xl
+                 xl:max-w-2xl
+                 '
+                >
+                    <SearchIcon className='h-5 mr-3 text-gray-500 '/>
+                    <input ref={searchInputRef} type='text' className='flex-grow focus:outline-none '/>
+                    <MicrophoneIcon className='h-5'/>
+                </div>
+                <div
+                    className='flex flex-col w-1/2 space-y-2 justify-center mt-8 sm:space-y-0 sm:flex-row sm:space-x-4'>
+                    <button onClick={search} className='btn'>Google Search</button>
+                    <button onClick={search} className='btn'>I'm feeling lucky</button>
+                </div>
+            </form>
+            {/*footer*/}
+            <Footer/>
         </div>
-      </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
-    </div>
-  )
+    )
 }
 
 export default Home
